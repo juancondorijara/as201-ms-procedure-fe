@@ -1,0 +1,131 @@
+<div class="d-flex" id="wrapper">
+    <div class="bg-dark border-dark" id="sidebar-wrapper" [ngClass]="status ? 'hide' : 'show'">
+        <div class="nav-link sidebar-heading">
+            <a [routerLink]="['/dashboard']" class="navbar-brand">
+                <!-- <span class="bold-title" style="size:25px">CERTIDIGITAL</span> -->
+                <h2 class="bold-title">CERTIDIGITAL</h2>
+            </a>
+        </div>
+        <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action text-white bg-dark" routerLinkActive="active"></a>
+            <!-- <a [routerLink]="['/dashboard/person']" class="list-group-item list-group-item-action text-white bg-dark" routerLinkActive="active">
+                <i class="bi bi-person-fill"></i> Persona
+            </a>
+            <a [routerLink]="['/dashboard/student']" class="list-group-item list-group-item-action text-white bg-dark" routerLinkActive="active">
+                <i class="bi bi-book-fill"></i> Estudiantes
+            </a> -->
+            <a [routerLink]="['/dashboard/procedure']" class="list-group-item list-group-item-action text-white bg-dark" routerLinkActive="active">
+                <i class="bi bi-book-fill"></i> Trámites
+            </a>
+            <a class="list-group-item list-group-item-action text-white bg-dark" routerLinkActive="active"></a>
+        </div>
+    </div>
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    </ul>
+                    <form class="d-flex">
+                        <button class="btn btn-danger" type="button" (click)="logOut();">
+              <i class="bi bi-power"></i>
+            </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <div class="container-fluid ui">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="labelModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="mdb-tab-login" [routerLink]="['/home']" data-mdb-toggle="pill" role="tab" aria-controls="pills-login" aria-selected="true">Login</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="mdb-tab-register" [routerLink]="['/home']" data-mdb-toggle="pill" role="tab" aria-controls="pills-register" aria-selected="false">Register</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade active show" id="pills-login" role="tabpanel" aria-labelledby="mdb-tab-login">
+                        <form>
+                            <div class="form-outline mb-4">
+                                <input type="email" id="loginName" class="form-control">
+                                <label class="form-label" for="loginName" style="margin-left: 0px;">Correo o nombre de usuario</label>
+                                <div class="form-notch">
+                                    <div class="form-notch-leading" style="width: 9px;"></div>
+                                    <div class="form-notch-middle" style="width: 114.4px;"></div>
+                                    <div class="form-notch-trailing"></div>
+                                </div>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="password" id="loginPassword" class="form-control">
+                                <label class="form-label" for="loginPassword" style="margin-left: 0px;">Contraseña</label>
+                                <div class="form-notch">
+                                    <div class="form-notch-leading" style="width: 9px;"></div>
+                                    <div class="form-notch-middle" style="width: 64.8px;"></div>
+                                    <div class="form-notch-trailing"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <a href="#!">¿Olvidó su contraseña?</a>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+                            <div class="text-center">
+                                <p class="mb-1">¿Aún no se ha registrado? <a href="#!">Register</a></p>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="mdb-tab-register">
+                        <form>
+                            <div class="form-outline mb-4">
+                                <input type="text" id="registerName" class="form-control">
+                                <label class="form-label" for="registerName" style="margin-left: 0px;">Name</label>
+                                <div class="form-notch">
+                                    <div class="form-notch-leading" style="width: 9px;"></div>
+                                    <div class="form-notch-middle" style="width: 8px;"></div>
+                                    <div class="form-notch-trailing"></div>
+                                </div>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="text" id="registerUsername" class="form-control">
+                                <label class="form-label" for="registerUsername" style="margin-left: 0px;">Username</label>
+                                <div class="form-notch">
+                                    <div class="form-notch-leading" style="width: 9px;"></div>
+                                    <div class="form-notch-middle" style="width: 8px;"></div>
+                                    <div class="form-notch-trailing"></div>
+                                </div>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="email" id="registerEmail" class="form-control">
+                                <label class="form-label" for="registerEmail" style="margin-left: 0px;">Email</label>
+                                <div class="form-notch">
+                                    <div class="form-notch-leading" style="width: 9px;"></div>
+                                    <div class="form-notch-middle" style="width: 8px;"></div>
+                                    <div class="form-notch-trailing"></div>
+                                </div>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="password" id="registerPassword" class="form-control">
+                                <label class="form-label" for="registerPassword" style="margin-left: 0px;">Password</label>
+                                <div class="form-notch">
+                                    <div class="form-notch-leading" style="width: 9px;"></div>
+                                    <div class="form-notch-middle" style="width: 8px;"></div>
+                                    <div class="form-notch-trailing"></div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block mb-1">Sign in</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

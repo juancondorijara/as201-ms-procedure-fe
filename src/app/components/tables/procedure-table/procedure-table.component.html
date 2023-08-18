@@ -1,0 +1,172 @@
+<div style="text-align: center">
+    <h1 style="color: white; background-color: black; font-weight: normal; font-size: 40px; font-family: fantasy;">LISTA DE TRÁMITES</h1>
+    <br/>
+</div>
+
+<div class="row">
+    <div class="col-2">
+        <h5 style="color: black; font-weight: bold;">FILTRO POR FASE:</h5>
+        <select #status class="form-select" (change)="listProcedureByPhaseId()" [(ngModel)]="procedure_phase_id_list" style="color: black; font-weight: bold; width: 250px;">
+            <option value=4 style="color: black; font-weight: bold;">4 (Secretaría Academica)</option>
+            <option value=5 style="color: black; font-weight: bold;">5 (Director)</option>
+            <option value=6 style="color: black; font-weight: bold;">6 (Secretaría Academica)</option>
+            <option value=7 style="color: black; font-weight: bold;">7 (Jefe del MINEDU)</option>
+      </select>
+    </div>
+    <!-- <div class="col-2" style="width:150px"></div>
+    <div class="col-2">
+        <h5 style="color: black; font-weight: bold;">FILTRO POR LOTE:</h5>
+        <select class="form-select" (change)="listProcedure()" [(ngModel)]="procedure_type_list" style="color: black; font-weight: bold;">
+            <option value=1 style="color: black; font-weight: bold;">NO CONSOLIDADO</option>
+            <option value=2 style="color: red; font-weight: bold;">CONSOLIDADO</option>
+            <option value=3 style="color: orange; font-weight: bold;">TODOS</option>
+        </select>
+    </div> -->
+    <div class="col-2" style="width:150px"></div>
+    <div class="col-2">
+        <h5 style="color: black; font-weight: bold;" *ngIf="procedure_phase_id_list == 4">CONSOLIDAR:</h5>
+        <!-- <button type="button" class="btn btn-danger" *ngIf="procedure_type_list == 1 || procedure_phase_id_list == 4" (click)="consolidate4(4, 5, 6)"> -->
+        <button type="button" class="btn btn-danger" *ngIf="procedure_phase_id_list == 4" (click)="consolidate4(8, 11, 13)">
+            <em class='fa fa-check'></em>
+            CONSOLIDAR
+        </button>
+
+        <h5 style="color: black; font-weight: bold;" *ngIf="procedure_phase_id_list == 5">APROBAR RESOLUCIÓN:</h5>
+        <!-- <button type="button" class="btn btn-danger" *ngIf="procedure_phase_id_list == 5" (click)="consolidate5(2, 3, 4, 5, 6)"> -->
+        <button type="button" class="btn btn-danger" *ngIf="procedure_phase_id_list == 5" (click)="consolidate5(8, 9, 10, 11, 13)">
+            <em class='fa fa-check'></em>
+            APROBAR
+        </button>
+
+        <h5 style="color: black; font-weight: bold;" *ngIf="procedure_phase_id_list == 6">ENVIAR AL JEFE MINEDU:</h5>
+        <!-- <button type="button" class="btn btn-danger" *ngIf="procedure_phase_id_list == 6" (click)="consolidate6(2, 3, 4, 5, 6)"> -->
+        <button type="button" class="btn btn-danger" *ngIf="procedure_phase_id_list == 6" (click)="consolidate6(8, 9, 10, 11, 13)">
+            <em class='fa fa-check'></em>
+            ENVIAR
+        </button>
+    </div>
+    <div class="col-lg"></div>
+    <!-- <div class="col-auto">
+      <button type="button" class="btn btn-outline-danger" (click)="openModal()">
+        <i class="bi bi-person-plus-fill"></i>
+      </button>
+    </div> -->
+    <div class="col-2">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" aria-describedby="btnSearch">
+            <button class="btn btn-outline-secondary" type="button" id="btnSearch">
+          <i class="bi bi-search"></i>
+        </button>
+        </div>
+    </div>
+</div>
+
+<br/>
+
+<form [formGroup]="procedureForm">
+    <table class="table table-striped table-bordered mat-elevation-z8">
+        <thead>
+            <tr class="table-dark">
+                <th scope="col">TRÁMITE</th>
+                <th scope="col">TIPO</th>
+                <!-- <th scope="col" class="text-bold col-2">CONFIGURACIÓN DE PROCEDIMIENTO</th> -->
+                <th scope="col">FASE</th>
+                <!-- <th scope="col">ESTUDIANTE</th> -->
+                <th scope="col">INSTITUTO Y EMAIL</th>
+                <th scope="col" *ngIf="visible_note">NOTA</th>
+                <th scope="col" *ngIf="visible_documents_attachments">ARCHIVOS ADJUNTOS</th>
+                <th scope="col" *ngIf="visible_lote">LOTE</th>
+                <th scope="col" *ngIf="visible_rejection">RECHAZAR</th>
+                <th scope="col">CONSOLIDACIÓN</th>
+                <th scope="col" *ngIf="visible_consolidation">RESOLUCIÓN</th>
+                <th scope="col">FECHA CREADA</th>
+                <th scope="col">FECHA ACTUALIZADA</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let procedure of procedures">
+                <!-- <td>TRÁMITE {{procedure.id}}</td> -->
+                <td>
+                    <a href="http://localhost:4200/dashboard/person">TRÁMITE {{procedure.id}}</a>
+                </td>
+                <td>Título Profesional</td>
+                <!-- <td>{{procedure.procedure_config_id}}</td> -->
+                <td *ngIf="procedure.phaseId == 7">{{procedure.phaseId}} (Resolución y Lote Validado)</td>
+                <td *ngIf="procedure.phaseId == 6">{{procedure.phaseId}} (Resolución Firmado)</td>
+                <td *ngIf="procedure.phaseId == 5">{{procedure.phaseId}} (Consolidado)</td>
+                <td *ngIf="procedure.phaseId == 4">{{procedure.phaseId}} (Pagó del Título)</td>
+                <!-- <td>{{procedure.personName}}</td> -->
+                <td>Valle Grande <br/> {{procedure.institutionalEmail}}</td>
+                <td *ngIf="visible_note">{{procedure.note}}</td>
+                <td *ngIf="visible_documents_attachments">
+                    <!-- <a href={{procedure.attached1}} target="_blank">DNI</a>
+                    <br/>
+                    <a href={{procedure.attached2}} target="_blank">Partida de Nacimiento</a>
+                    <br/>
+                    <a href={{procedure.attached3}} target="_blank">Comprobante de Pago</a>
+                    <br/>
+                    <a href={{procedure.attached4}} target="_blank">Certificado de Ingles</a> -->
+
+
+                    <!-- <a href="http://127.0.0.1:9000/certidigital/70335061DNI.jpg" target="_blank">DNI</a>
+                    <br/>
+                    <a href="http://127.0.0.1:9000/certidigital/70335061PN.jpg" target="_blank">Partida de Nacimiento</a>
+                    <br/>
+                    <a href="http://127.0.0.1:9000/certidigital/70335061CP.pdf" target="_blank">Comprobante de Pago</a>
+                    <br/>
+                    <a href="http://127.0.0.1:9000/certidigital/70335061CI.pdf" target="_blank">Certificado de Ingles</a> -->
+
+
+                    <a href="https://storage.cloud.google.com/certidigital-2023/74140394DNI.jpg?authuser=0" target="_blank">DNI</a>
+                    <br/>
+                    <a href="https://storage.cloud.google.com/certidigital-2023/74140394PN.jpg?authuser=0" target="_blank">Partida de Nacimiento</a>
+                    <br/>
+                    <a href="https://storage.cloud.google.com/certidigital-2023/74140394CP.pdf?authuser=0" target="_blank">Comprobante de Pago</a>
+                    <br/>
+                    <a href="https://storage.cloud.google.com/certidigital-2023/74140394CI.pdf?authuser=0" target="_blank">Certificado de Ingles</a>
+                </td>
+                <td *ngIf="visible_lote">LOTE {{procedure.batch}}</td>
+                <td *ngIf="visible_rejection">
+                    <input type="text" class="form-control" formControlName="message">
+                    <button type="reset" class="btn btn-danger btn-sm" (click)="notification3(procedure.institutionalEmail)">
+                        <em class="fa-solid fa-trash"></em>
+                        RECHAZAR
+                    </button>
+                </td>
+                <td>
+                    <!-- {{procedure.id}}
+                    <input type="checkbox" *ngIf="procedure_phase_id_list == 4"> -->
+
+                    <!-- <input type="checkbox" *ngIf="procedure.batch == null" value={{procedure.id}}> -->
+                    <label class="form-label" *ngIf="procedure_phase_id_list == 4">
+                        <input type="checkbox" *ngIf="procedure_phase_id_list == 4" style="width:20px; height:20px;">
+                        <br/>
+                        Consolidar
+                    </label>
+
+                    <label class="form-label" *ngIf="procedure_phase_id_list == 5 || procedure_phase_id_list == 6 || procedure_phase_id_list == 7">
+                        <!-- <input type="checkbox" checked *ngIf="procedure.batch != null"> -->
+                        <input type="checkbox" checked *ngIf="procedure_phase_id_list == 5 || procedure_phase_id_list == 6 || procedure_phase_id_list == 7" style="width:20px; height:20px;">
+                        <br/>
+                        Consolidado
+                    </label>
+                </td>
+                <td *ngIf="visible_consolidation">
+                    <a *ngIf="visible_consolidation_drive" href="https://drive.google.com/file/d/1rvRyImaDcqu3T3o2ceVahY5tHtIyFm-Q/view?usp=share_link" target="_blank">
+                        DRIVE
+                    </a>
+                    <a *ngIf="visible_consolidation_ipfs" href="https://ipfs.io/ipfs/QmXYVQXFiyVqJ1fZharkeHz9JBQFMfJ7YUX2ShwnyReFmB" target="_blank">
+                        IPFS
+                    </a>
+                </td>
+                <td>{{procedure.createdDate}}</td>
+                <td>{{procedure.modifiedDate}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="procedures.length == 0" style="text-align: center">
+        <p class="fw-semibold fs-6" style="color: #BD1F09;">
+            <em class="fa-solid fa-circle-xmark"></em> Sin Registros...
+        </p>
+    </div>
+</form>

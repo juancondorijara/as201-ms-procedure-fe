@@ -1,0 +1,80 @@
+<div class="row">
+  <div class="col-2">
+    <select #status class="form-select" (change)="statusSelected()">
+      <option selected>Estado</option>
+      <option value=3>Inactivos</option>
+      <option value=2>Activos</option>
+      <option value=1>Todos</option>
+    </select>
+  </div>
+  <div class="col-lg"></div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-outline-danger" (click)="openModal()">
+      <i class="bi bi-person-plus-fill"></i>
+    </button>
+  </div>
+  <div class="col-2">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" aria-describedby="btnSearch">
+      <button class="btn btn-outline-secondary" type="button" id="btnSearch">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </div>
+</div>
+<table class="table table-responsive table-bordered">
+	<thead>
+		<tr>
+      <th scope="col" class="text-center">#</th>
+			<th scope="col">Documentación</th>
+			<th scope="col">Nº Documentación</th>
+			<th scope="col">Persona</th>
+			<th scope="col">Celular</th>
+			<th scope="col">Email</th>
+			<th scope="col">Usuario</th>
+			<th scope="col" class="text-center">Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let persons of persons | slice: (actualPage-1) * pageSize : (actualPage-1) * pageSize + pageSize">
+      <td class="text-center">{{persons.id}}</td>
+			<td>{{persons.id_type}}</td>
+			<td>{{persons.id_number}}</td>
+			<td>{{persons | fullnamePerson}}</td>
+			<td>{{persons.cellphone}}</td>
+			<td>{{persons.email}}</td>
+			<td>{{persons.username}}</td>
+			<td class="text-center">
+				<div class="dropdown">
+					<a class="eclipse-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="bi bi-three-dots-vertical"></i>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-dark">
+						<li>
+              <a class="dropdown-item" (click)="deletePerson(persons.id)" ngbTooltip="Will disappear in 5s">
+							  <i class="bi bi-trash"></i> Eliminar
+						  </a>
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="openEditModal(persons)">
+                <i class="bi bi-pencil-fill"></i> Editar
+              </a>
+            </li>
+						<li>
+              <a class="dropdown-item" (click)="restorePerson(persons.id);">
+							  <i class="bi bi-arrow-clockwise"></i> Restaurar
+						  </a>
+            </li>
+					</ul>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<div class="d-flex justify-content-between p-2">
+  <ngb-pagination [collectionSize]="persons.length" [(page)]="actualPage" [pageSize]="pageSize" class="pagination-success">
+  </ngb-pagination>
+</div>
+<div>
+  <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+</div>

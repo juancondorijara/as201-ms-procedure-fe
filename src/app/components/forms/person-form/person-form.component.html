@@ -1,0 +1,58 @@
+<div class="modal-header">
+  <div class="form-container">
+    <h3 class="title">{{personService.personSelected ? 'Modificar' : 'Guardar'}}</h3>
+  </div>
+  <button type="button" class="btn-close" (click)="activeModalService.close()"></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="personForm" (ngSubmit)="isSelectedToForm();">
+    <div class="row mb-4">
+      <div class="col-md-4">
+        <select class="form-select" formControlName="id_type">
+          <option selected>Seleccionar</option>
+          <option value="DNI">DNI</option>
+          <option value="CE">Carnet de extranjería</option>
+        </select>
+      </div>
+      <div class="col-md-8">
+        <input type="text" class="form-control" placeholder="Documentación" formControlName="id_number">
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md">
+        <input type="text" class="form-control" placeholder="Nombres" formControlName="name">
+      </div>
+      <div class="col-md">
+        <input type="text" class="form-control" placeholder="Apellidos" formControlName="lastname">
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-md">
+        <input type="tel" class="form-control" placeholder="Cellphone" formControlName="cellphone">
+      </div>
+      <div class="col-md">
+        <input type="email" class="form-control" placeholder="Email" formControlName="email">
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="Usuario" formControlName="username">
+      </div>
+      <div class="col-md-8">
+        <div class="input-group">
+          <input type="password" class="form-control" placeholder="Contraseña" [type]="type?'password':'text'" formControlName="password">
+          <span class="input-group-text" id="basic-addon1" (click)="viewPassword();">
+            <em [ngClass]="visible?'bi bi-eye-fill':'bi bi-eye-slash-fill'"></em>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-auto">
+      <div class="col">
+        <button type="submit" class="btn btn-primary" [disabled]="personForm.invalid">
+          {{personService.personSelected ? 'Actualizar' : 'Guardar'}}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
